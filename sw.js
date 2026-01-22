@@ -1,4 +1,4 @@
-/* angel-inner-seasoning v1.0.2 */
+/* angel-inner-seasoning v1.0.3 */
 'use strict';
 
 const CACHE_NAME = 'angel-inner-seasoning-v1.0.2';
