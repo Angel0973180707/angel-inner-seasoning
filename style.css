@@ -429,3 +429,121 @@ a, .mono{
   border: 1px solid rgba(59,42,26,.12) !important;
   background: rgba(255,255,255,.70) !important;
 }
+
+
+/* ===== Softer rounded font + Glass UI + 3D buttons (v1.0.4) ===== */
+
+/* ✅ Rounded-ish Traditional Chinese strategy:
+   - Prefer M PLUS Rounded 1c (Google Fonts) for the "feel"
+   - Fall back to Noto Sans TC / system TC fonts for coverage
+*/
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+:root{
+  --font-sans: "M PLUS Rounded 1c","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+
+  /* glass */
+  --glass: rgba(255, 255, 255, .58);
+  --glass-strong: rgba(255, 255, 255, .72);
+  --glass-stroke: rgba(255,255,255,.42);
+  --edge: rgba(59,42,26,.14);
+
+  /* depth */
+  --shadow-soft: 0 10px 30px rgba(28, 18, 10, .12);
+  --shadow-lift: 0 16px 44px rgba(28, 18, 10, .16);
+  --shadow-press: 0 6px 16px rgba(28, 18, 10, .12);
+}
+
+body{
+  font-family: var(--font-sans);
+  letter-spacing: .15px;
+}
+
+.title{ font-weight: 700; }
+.stepTitle{ font-weight: 700; }
+
+/* ✅ Glass cards */
+.card{
+  position: relative;
+  background:
+    radial-gradient(1200px 380px at 20% 0%, rgba(255,255,255,.72), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.50));
+  border: 1px solid rgba(255,255,255,.55);
+  box-shadow: var(--shadow-soft);
+  border-radius: 20px;
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius: inherit;
+  pointer-events:none;
+  background: linear-gradient(120deg, rgba(255,255,255,.55), rgba(255,255,255,0) 55%);
+  opacity:.55;
+}
+
+.card:hover{
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lift);
+  transition: transform .14s ease, box-shadow .14s ease;
+}
+
+/* ✅ Inputs also slightly glass */
+.input, .textarea{
+  background: rgba(255,255,255,.62);
+  border: 1px solid rgba(255,255,255,.55);
+  box-shadow: 0 2px 10px rgba(28,18,10,.06) inset;
+  backdrop-filter: blur(10px) saturate(1.1);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+}
+
+/* ✅ More 3D buttons (gentle, not aggressive) */
+.btn{
+  border-radius: 16px;
+  border: 1px solid rgba(59,42,26,.16);
+  background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.70));
+  box-shadow:
+    0 10px 18px rgba(28,18,10,.14),
+    0 2px 0 rgba(255,255,255,.65) inset;
+  transform: translateY(0);
+}
+
+.btn:hover{
+  box-shadow:
+    0 14px 24px rgba(28,18,10,.18),
+    0 2px 0 rgba(255,255,255,.75) inset;
+  transform: translateY(-1px);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.btn:active{
+  transform: translateY(1px);
+  box-shadow:
+    var(--shadow-press),
+    0 1px 0 rgba(255,255,255,.55) inset;
+}
+
+.btn.ghost{
+  background: rgba(255,255,255,.42);
+  border: 1px solid rgba(255,255,255,.55);
+  box-shadow:
+    0 8px 16px rgba(28,18,10,.10),
+    0 1px 0 rgba(255,255,255,.55) inset;
+}
+
+/* Flavor chips more lively */
+.flavor{
+  background: rgba(255,255,255,.58) !important;
+  border: 1px solid rgba(255,255,255,.60) !important;
+  box-shadow: 0 10px 18px rgba(28,18,10,.10);
+  backdrop-filter: blur(10px) saturate(1.15);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+}
+.flavor:active{ transform: translateY(1px); }
+
+/* Prevent Chinese single-char breaks */
+*{ word-break: keep-all; line-break: strict; }
+a{ overflow-wrap: anywhere; word-break: break-word; }
