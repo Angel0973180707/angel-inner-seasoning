@@ -1,6 +1,6 @@
 'use strict';
 
-const VERSION = 'v1.0.4';
+const VERSION = 'v1.0.5';
 
 /* ===== Firebase (optional) v1.0.3 =====
    貼上你的 Firebase web app 設定（Project settings → Your apps → SDK setup and configuration）
