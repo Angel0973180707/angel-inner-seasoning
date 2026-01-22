@@ -1,6 +1,71 @@
 'use strict';
 
-const VERSION = 'v1.0.2';
+const VERSION = 'v1.0.3';
+
+/* ===== Firebase (optional) v1.0.3 =====
+   貼上你的 Firebase web app 設定（Project settings → Your apps → SDK setup and configuration）
+   若不想啟用，將 ENABLE_FIREBASE 設為 false 即可。
+*/
+const ENABLE_FIREBASE = true;
+
+// ✅ 請把下面 firebaseConfig 換成你的專案設定（這裡放的是「佔位」）
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY",
+  authDomain: "PASTE_YOUR_AUTH_DOMAIN",
+  projectId: "PASTE_YOUR_PROJECT_ID",
+  storageBucket: "PASTE_YOUR_STORAGE_BUCKET",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID",
+  appId: "PASTE_YOUR_APP_ID"
+};
+
+const FIRESTORE_COLLECTION = "angel_events";
+
+let _fb = { inited:false, app:null, db:null };
+async function firebaseInitOnce() {
+  if (!ENABLE_FIREBASE) return null;
+  if (_fb.inited) return _fb;
+  // 若使用者尚未填 config，就不初始化
+  if (!firebaseConfig || String(firebaseConfig.apiKey||"").startsWith("PASTE_")) return null;
+
+  // 動態載入（只要有使用才會下載/連線）
+  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js");
+  const { getFirestore, addDoc, serverTimestamp, collection } = await import("https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js");
+
+  _fb.app = initializeApp(firebaseConfig);
+  _fb.db = getFirestore(_fb.app);
+  _fb.addDoc = addDoc;
+  _fb.serverTimestamp = serverTimestamp;
+  _fb.collection = collection;
+  _fb.inited = true;
+  return _fb;
+}
+
+async function firebaseSaveEvent(toolName, data) {
+  const fb = await firebaseInitOnce();
+  if (!fb || !fb.db) return false;
+
+  try {
+    await fb.addDoc(
+      fb.collection(fb.db, FIRESTORE_COLLECTION),
+      {
+        tool: toolName,
+        ...data,
+        ts: fb.serverTimestamp()
+      }
+    );
+    return true;
+  } catch (e) {
+    // 靜默失敗：不打擾使用者
+    return false;
+  }
+}
+
+// 若系統未提供 window.saveToCloud，就用 Firebase 版本頂上
+if (typeof window.saveToCloud !== "function") {
+  window.saveToCloud = async (toolName, data) => {
+    return firebaseSaveEvent(toolName, data);
+  };
+}
 const LS_KEY = 'angel_seasoning_state_v1';
 const LS_ARCHIVE = 'angel_seasoning_archive_v1';
 const LS_QUOTES = 'angel_seasoning_quotes_v1';
