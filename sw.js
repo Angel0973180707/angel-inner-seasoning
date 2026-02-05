@@ -1,7 +1,7 @@
-/* angel-inner-seasoning v1.0.5 */
+/* angel-inner-seasoning v1.0.6 */
 'use strict';
 
-const CACHE_NAME = 'angel-inner-seasoning-v1.0.5';
+const CACHE_NAME = 'angel-inner-seasoning-v1.0.6';
 const ASSETS = [
   './',
   './index.html',

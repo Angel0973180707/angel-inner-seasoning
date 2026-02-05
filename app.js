@@ -1,6 +1,6 @@
 'use strict';
 
-const VERSION = 'v1.0.5';
+const VERSION = 'v1.0.6';
 
 /* ===== Firebase (optional) v1.0.3 =====
    貼上你的 Firebase web app 設定（Project settings → Your apps → SDK setup and configuration）
@@ -76,7 +76,7 @@ const CONCEPT_URL = 'https://angel0973180707.github.io/angel-happy-paw/';
 const FORM_URL = 'https://forms.gle/rHL77QaLRnw3s4mC8';
 
 // 🎬 預留｜影片欣賞連結（你之後把影片網址貼在這裡即可）
-const VIDEO_URL = ''; // 例：'https://www.youtube.com/watch?v=xxxx'
+const VIDEO_URL = 'https://www.youtube.com/watch?v=GKNJpdDUSA4'; // 例：'https://www.youtube.com/watch?v=xxxx'
 
 const $ = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
@@ -454,3 +454,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
   if(state.flavor) setFlavor(state.flavor);
   renderSteps();
 });
+
+
+// ===== Video button (open YouTube) =====
+(function bindVideoButton() {
+  const btnVideo = document.getElementById('btnVideo');
+  if (!btnVideo) return;
+  btnVideo.addEventListener('click', () => {
+    if (!VIDEO_URL) return;
+    window.open(VIDEO_URL, '_blank', 'noopener');
+  });
+})();
